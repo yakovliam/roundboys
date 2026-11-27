@@ -129,7 +129,7 @@ fn modes_formants_and_sample_rates_remain_finite() {
 
 #[test]
 fn quantize_and_default_robot_choose_the_target_notes() {
-    for (mode, input, low, high) in [(1., 435., 438., 445.), (2., 220., 258., 266.)] {
+    for (mode, input, expected) in [(1., 435., 440.), (2., 220., 261.626)] {
         let mut parameters = Parameters::default();
         parameters.set(12, mode).unwrap();
         let mut processor = Processor::new(RATE).unwrap();
@@ -139,13 +139,15 @@ fn quantize_and_default_robot_choose_the_target_notes() {
             .process(&mut left, &mut right, parameters)
             .unwrap();
         let tail = &left[48000..];
-        let peak = (low as usize..=high as usize)
-            .map(|frequency| power(tail, frequency as f64))
-            .fold(0., f64::max);
+        let peak = (-12..=12)
+            .map(|step| expected + step as f64 * 0.25)
+            .max_by(|a, b| power(tail, *a).total_cmp(&power(tail, *b)))
+            .unwrap();
         assert!(
-            peak > power(tail, input) * 5.,
-            "mode {mode} fails to select a new pitch"
+            (peak - expected).abs() <= 0.5,
+            "mode {mode}: {peak} vs {expected}"
         );
+        assert!(power(tail, peak) > power(tail, input) * 20.);
     }
 }
 

@@ -146,7 +146,14 @@ impl Channel {
         for lag in minimum + 1..=maximum {
             let value = correlation(lag);
             if rising && value < previous && previous > 0.72 {
-                return Some(rate / 4. / (lag - 1) as f64);
+                let left = correlation(lag - 2);
+                let denominator = left - 2. * previous + value;
+                let correction = if denominator.abs() > 1e-12 {
+                    (0.5 * (left - value) / denominator).clamp(-0.5, 0.5)
+                } else {
+                    0.
+                };
+                return Some(rate / 4. / ((lag - 1) as f64 + correction));
             }
             rising = value > previous;
             previous = value;
