@@ -27,7 +27,10 @@ It updates only `DecapitatorRust.component` and `LittleRadiatorRust.component`.
 The AU identifiers remain unchanged so existing test projects can load them.
 Intel Mac builds and other plug-in formats remain unavailable.
 
-See [the release guide](RELEASING.md) for signing, team delivery, and the build runner.
+Every push to `main` queues a GitHub Actions build with downloadable artifacts.
+Start the local Mac runner to build with local assets.
+Manual runs can create a draft prerelease.
+See [the release guide](RELEASING.md) for signing and team delivery.
 See [the tester notes](release/TESTING.txt) for installation and test reports.
 
 ## Source and local files

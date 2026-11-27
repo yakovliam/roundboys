@@ -1,36 +1,73 @@
-name: Build a test release
+name: Build test artifacts
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       version:
         description: Numeric release version (major.minor.patch)
         required: true
+        default: '0.1.2'
         type: string
+      create_release:
+        description: Also create an unpublished draft prerelease
+        default: false
+        type: boolean
 permissions:
+  # No pull request code runs on the local Mac.
   contents: write
 concurrency:
-  group: roundboys-test-release
+  group: roundboys-test-artifacts
   cancel-in-progress: false
 jobs:
   build:
-    # Use a dedicated, logged-in Mac with Xcode tools, Rust, and local licensed assets.
-    # Do not run pull request code on this runner.
     runs-on: [self-hosted, macOS, ARM64, roundboys]
+    timeout-minutes: 25
     env:
-      RELEASE_VERSION: ${{ inputs.version }}
-      ROUNDBOYS_ASSET_ROOT: ${{ vars.ROUNDBOYS_ASSET_ROOT }}
-      ROUNDBOYS_APP_IDENTITY: ${{ vars.ROUNDBOYS_APP_IDENTITY }}
-      ROUNDBOYS_INSTALLER_IDENTITY: ${{ vars.ROUNDBOYS_INSTALLER_IDENTITY }}
-      ROUNDBOYS_NOTARY_PROFILE: ${{ vars.ROUNDBOYS_NOTARY_PROFILE }}
+      REQUESTED_VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Select a version
+        run: |
+          if [ -n "$REQUESTED_VERSION" ]; then
+            version="$REQUESTED_VERSION"
+          else
+            version="0.$((GITHUB_RUN_NUMBER / 1000 + 2)).$((GITHUB_RUN_NUMBER % 1000))"
+          fi
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+      - name: Install the pinned Rust tools
+        run: rustup show active-toolchain
+      - name: Check local build assets
+        run: |
+          test -d "$ROUNDBOYS_ASSET_ROOT/decapitator/assets"
+          test -d "$ROUNDBOYS_ASSET_ROOT/little-radiator/assets"
       - name: Build and check
         run: python3 tools/release.py --version "$RELEASE_VERSION"
+      - name: Upload installable artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: RoundBoys-${{ env.RELEASE_VERSION }}-macOS-arm64
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/*.pkg
+            dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/*.zip
+            dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/SHA256SUMS.txt
+            dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/manifest.json
+            dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/TESTING.txt
+      - name: Save test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RoundBoys-checks-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: ignore
+          retention-days: 14
+          path: dist/**/*-checks.txt
       - name: Upload a draft test release
-        env:
-          GH_TOKEN: ${{ github.token }}
+        if: github.event_name == 'workflow_dispatch' && inputs.create_release
         run: |
           gh release create "test-v$RELEASE_VERSION" \
             --target "$GITHUB_SHA" --draft --prerelease \
@@ -40,3 +77,12 @@ jobs:
             "dist/roundboys-$RELEASE_VERSION-macos-arm64/"*.zip \
             "dist/roundboys-$RELEASE_VERSION-macos-arm64/SHA256SUMS.txt" \
             "dist/roundboys-$RELEASE_VERSION-macos-arm64/manifest.json"
+      - name: Add the download notes
+        run: |
+          {
+            echo "## RoundBoys $RELEASE_VERSION"
+            echo 'Download the installable artifact from this run.'
+            echo 'It contains the PKG, ZIP, checksums, manifest, and tester notes.'
+            echo 'Platform: Apple silicon, macOS 11 or later. Format: AU.'
+            echo 'This build has a local signature. Apple signing and notarization remain required for normal team delivery.'
+          } >> "$GITHUB_STEP_SUMMARY"

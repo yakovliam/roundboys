@@ -72,18 +72,39 @@ Publishing makes the release files public because this repository is public.
 Use a private delivery channel if the team needs restricted access.
 The workflow creates drafts only. It does not publish them.
 
-## Build runner
+## GitHub Actions artifacts
 
-Register a dedicated Apple silicon Mac as a GitHub Actions runner.
-Assign the `roundboys` label.
-Keep a user logged in so the native editor checks can use the window server.
-Install Rust, Xcode tools, Python 3, and GitHub CLI.
-Provide the private local assets through `ROUNDBOYS_ASSET_ROOT`.
-Set the repository variables with the same names as the environment variables above.
-Use the manual **Build a test release** workflow.
-The workflow accepts a numeric version and creates a draft prerelease.
-It does not run code from pull requests.
-Runner registration and Apple credentials remain separate setup steps.
+The **Build test artifacts** workflow uses a local Apple silicon Mac runner.
+It runs after a push to `main`. It also supports manual runs.
+The workflow builds both plug-ins and runs the native AU checks.
+Download the installer artifact from the Actions run page.
+Artifacts remain available for 30 days. Test logs remain available for 14 days.
+The manual run accepts a version and can also create a draft prerelease.
+
+The raw images and preset fixtures stay on the local Mac.
+No raw asset archive is uploaded to GitHub.
+Built plug-ins contain the images needed by their editors.
+The distribution artifacts include those plug-ins.
+
+Start one local runner for one queued build:
+
+```sh
+python3 tools/run_ci_runner.py
+```
+
+The helper downloads the official GitHub runner and checks its published hash.
+It registers a temporary runner with the `roundboys` label.
+It sets the local asset directory for the build.
+It runs one job and then exits. It does not install a background service.
+It needs GitHub CLI authentication with repository administration access.
+A second Mac can use the same helper after its local assets are restored.
+A build stays queued when no runner is online.
+The workflow never runs pull request code.
+Run this helper only for trusted changes on `main`.
+
+The workflow uses a local signature without Apple notarization.
+Use the signing process above for normal team delivery.
+Do not store Apple credentials in the workflow or the repository.
 
 ## Checks and rollback
 
