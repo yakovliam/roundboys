@@ -1,8 +1,8 @@
 # RoundBoys
 
 RoundBoys contains AU plug-ins for team testing on Mac.
-Decapitator and Little Radiator have working test builds.
-The other 21 plug-ins remain source templates.
+Decapitator, Little Radiator, and Little AlterBoy have working builds.
+The other 20 plug-ins remain source templates.
 The audio models remain provisional. They do not yet match the original audio.
 
 ## Build a test release
@@ -16,14 +16,14 @@ Run this command from the repository root:
 python3 tools/release.py --version 0.1.0
 ```
 
-The command checks both plug-ins and builds a PKG installer and a ZIP archive.
+The command checks all active plug-ins and builds a PKG installer and a ZIP archive.
 It also writes checksums and a release manifest.
 The output stays in `dist/roundboys-0.1.0-macos-arm64/`.
 The command stops if that directory already exists.
 It does not install or upload files.
 
 The installer targets the current user's `Library/Audio/Plug-Ins/Components` directory.
-It updates only `Decapitator.component` and `LittleRadiator.component`.
+It installs `Decapitator.component`, `LittleRadiator.component`, and `LittleAlterBoy.component`.
 The AU identifiers remain unchanged so existing test projects can load them.
 Intel Mac builds and other plug-in formats remain unavailable.
 

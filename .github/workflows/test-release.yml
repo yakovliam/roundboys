@@ -44,6 +44,7 @@ jobs:
         run: |
           test -d "$ROUNDBOYS_ASSET_ROOT/decapitator/assets"
           test -d "$ROUNDBOYS_ASSET_ROOT/little-radiator/assets"
+          test -d "$ROUNDBOYS_ASSET_ROOT/little-alter-boy/assets"
       - name: Build and check
         run: python3 tools/release.py --version "$RELEASE_VERSION"
       - name: Upload installable artifacts

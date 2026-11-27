@@ -13,7 +13,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
-PLUGINS = {"decapitator": "Decapitator", "little-radiator": "LittleRadiator"}
+PLUGINS = {"decapitator": "Decapitator", "little-radiator": "LittleRadiator", "little-alter-boy": "LittleAlterBoy"}
 
 
 def run(args, **kwargs):
@@ -61,7 +61,7 @@ def main():
         with log.open("w") as stream:
             for command in [
                 ["cargo", "fmt", "--manifest-path", plugin / "Cargo.toml", "--", "--check"],
-                ["cargo", "test", "--offline", "--manifest-path", plugin / "Cargo.toml"],
+                ["cargo", "test", "--offline", "--manifest-path", plugin / "Cargo.toml", "--", "--include-ignored"],
                 ["cargo", "clippy", "--offline", "--manifest-path", plugin / "Cargo.toml", "--all-targets", "--", "-D", "warnings"],
                 ["python3", plugin / "tools/build_au.py"],
             ]:

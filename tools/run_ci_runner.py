@@ -30,7 +30,7 @@ def main():
     if platform.system() != "Darwin" or platform.machine() != "arm64":
         parser.error("Use an Apple silicon Mac")
     assets = Path(os.environ.get("ROUNDBOYS_ASSET_ROOT", ROOT / ".local/build-assets")).resolve()
-    for slug in ["decapitator", "little-radiator"]:
+    for slug in ["decapitator", "little-radiator", "little-alter-boy"]:
         for folder in ["assets", "reference/presets"]:
             if not (assets / slug / folder).is_dir():
                 parser.error(f"Missing local assets: {assets / slug / folder}")

@@ -14,7 +14,7 @@ plugins/<plugin>/assets/roundboys-faceplate-generated.png
 plugins/<plugin>/reference/presets/      Native test fixtures
 ```
 
-Both active plug-ins have these files on the prepared local checkout.
+All active plug-ins have these files on the prepared local checkout.
 No original executable is required for a release build.
 Back up these ignored files in private storage.
 
@@ -25,6 +25,8 @@ A build runner can use an external directory with this layout:
 <asset-root>/decapitator/reference/presets/...
 <asset-root>/little-radiator/assets/...
 <asset-root>/little-radiator/reference/presets/...
+<asset-root>/little-alter-boy/assets/...
+<asset-root>/little-alter-boy/reference/presets/...
 ```
 
 Set `ROUNDBOYS_ASSET_ROOT` to that directory.
@@ -49,7 +51,7 @@ python3 tools/release.py --version 0.1.1
 
 Store the Apple notarization credentials with `xcrun notarytool store-credentials` before the build.
 Do not put passwords, certificates, or private keys in Git.
-The command signs both AUs and the installer.
+The command signs all AUs and the installer.
 It submits the installer to Apple and attaches the notarization ticket.
 It stops if a signing or notarization step fails.
 Check `signed` and `notarized` in `manifest.json` before team delivery.
@@ -76,7 +78,7 @@ The workflow creates drafts only. It does not publish them.
 
 The **Build test artifacts** workflow uses a local Apple silicon Mac runner.
 It runs after a push to `main`. It also supports manual runs.
-The workflow builds both plug-ins and runs the native AU checks.
+The workflow builds all active plug-ins and runs the native AU checks.
 Download the installer artifact from the Actions run page.
 Artifacts remain available for 30 days. Test logs remain available for 14 days.
 The manual run accepts a version and can also create a draft prerelease.
