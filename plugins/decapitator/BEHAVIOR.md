@@ -121,7 +121,7 @@ They do not establish sound matching with the original.
 | Mix dry, including transition | 0.016145 |
 
 No exact audio cases pass out of 25.
-REAPER playback, full automation, long sessions, and original DSP identification remain open.
+the audio host playback, full automation, long sessions, and original DSP identification remain open.
 
 ## Evidence
 
@@ -143,8 +143,8 @@ No debugger or binary patch is used in these original host observations.
 The Rust AU has no PACE dependency.
 
 The final label-spacing check stays in `editor-20261126T070659612292Z/`.
-The separate test copy is installed at `~/Library/Audio/Plug-Ins/Components/DecapitatorRust.component`.
-The current REAPER process stays open.
+The separate test copy is installed at `~/Library/Audio/Plug-Ins/Components/Decapitator.component`.
+The current the audio host process stays open.
 Restart the test host to load the new AU from its component list.
 
 ## Preset and meter update, November 26, 2026
@@ -167,11 +167,10 @@ None matches the original output exactly.
 The preset and meter changes do not alter the model audio.
 
 The updated test component is installed. The previous component has a local backup.
-The separate REAPER session records successful AU discovery and editor creation.
+The separate the audio host session records successful AU discovery and editor creation.
 Manual playback verification remains open because the test window presents an audio setup prompt.
 UI control calls also time out. A process sample shows a normal AppKit event loop.
 The evidence does not establish a plug-in deadlock.
-See `evaluation/reimplementation/decapitator/reaper-current.json` for the test session path.
 
 ## Meter sensitivity correction, November 26, 2026
 

@@ -90,9 +90,9 @@ This verifies control import, not sound matching with the original DSP.
 
 The import command now uses the faceplate context menu.
 The native host exercises its decoder and parameter APIs directly.
-An end-to-end file-panel test in REAPER remains open.
-The existing REAPER instance still uses the earlier installed build.
-The new build stays at `target/LittleRadiatorRust.component`.
+An end-to-end file-panel test in the audio host remains open.
+The existing the audio host instance still uses the earlier installed build.
+The new build stays at `target/LittleRadiator.component`.
 
 ## Local evidence
 
@@ -119,5 +119,5 @@ The public host observations provide the control mappings for this first importe
 Recover the full ARCHIVE grammar and verify it with generated control combinations.
 Support custom presets without an exact archive match.
 Check modern saved presets with their optional headers.
-Test the file panel and host automation in REAPER.
+Test the file panel and host automation in the audio host.
 Measure the DSP separately before claiming that imported presets produce matching sound.

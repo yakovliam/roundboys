@@ -1,10 +1,5 @@
-RoundBoys Test Bench contains Decapitator Rust and Little Radiator Rust.
+RoundBoys contains Decapitator and Little Radiator Audio Units.
 
-- Format: AU.
-- Platform: Apple silicon Mac, macOS 11 or later.
-- Decapitator includes a preset menu, user preset save/load, and a live output meter.
-- Both audio models remain provisional. Original sound matching remains open.
+Platform: Apple silicon Mac, macOS 11 or later.
 
-Read `TESTING.txt` before installation.
-Check `manifest.json` for signing and notarization status.
-Use `SHA256SUMS.txt` to check the downloads.
+The audio models remain provisional. Original sound matching remains open.

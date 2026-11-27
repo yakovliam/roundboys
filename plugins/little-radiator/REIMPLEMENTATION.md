@@ -37,7 +37,7 @@ investigation trail), [../../evaluation/tests/PROGRESS.md](../../evaluation/test
   factory symbol `LittleRadiatorAUFactory`, view factory `SoundtoysAUViewFactory_C`.
 - Parameter surface (BEHAVIOR.md): Bypass(7), Heat(8), Mix(9), Bias(10), Noise(12),
   normalized 0..1; the AU requires AudioUnitInitialize before the global parameter
-  list (else -10867). REAPER reports 8 host-visible parameters.
+  list (else -10867). the audio host reports 8 host-visible parameters.
 - Reference render: 48 kHz stereo float32, 440 Hz sine at 0.1, default settings,
   peak 0.15981029, hash `28cc2c1c…` (1 s case in the 234516Z session).
 - The matrix covers 3 sample rates × 2 block sizes × 4 signals, parameter extremes,
@@ -60,10 +60,9 @@ investigation trail), [../../evaluation/tests/PROGRESS.md](../../evaluation/test
 ## Known gaps and landmines (do not rediscover these)
 
 - **GUI is broken in every patched copy**: the view factory dereferences a null
-  object at image offset 0x95118c (deterministic, REAPER startup). The original's
+  object at image offset 0x95118c (deterministic, the audio host startup). The original's
   GUI works ("License expires in 29 days" trial overlay). Readding the bundled
   PACE resources does not fix it (tested: patched-fullres). Not a blocker for
-  headless audio validation; blocks REAPER/GUI acceptance until the missing
   GUI-path initialization is identified.
 - **Never run the original under a debugger** — anti-debug trips and spams modal
   dialogs; failed WrapConfig auths hit the real daemon. Patched copies tolerate
@@ -73,7 +72,7 @@ investigation trail), [../../evaluation/tests/PROGRESS.md](../../evaluation/test
   Retry + detection is the shipped answer. See WORKLOG-PATH-B.md for the full
   evidence.
 - The on-disk original is packed; the decrypted image lineage is
-  patched-code → patched-clock → reaper-clean → … → patched-client-success.
+  patched-code → patched-clock → host-clean → … → patched-client-success.
   `evaluation/static/LittleRadiator.arm64` is the flawed early dump — do not
   analyze it; use the Ghidra project `evaluation/ghidra-project/LittleRadiatorCurrent`
   (built from patched-startup-call).

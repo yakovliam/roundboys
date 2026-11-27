@@ -18,10 +18,10 @@ int main(int argc,char**argv){@autoreleasepool{
     require(argc==3,"arguments");
     NSString*path=[NSString stringWithUTF8String:argv[1]];NSBundle*b=[NSBundle bundleWithPath:path];NSError*error=nil;
     require([b loadAndReturnError:&error],"bundle load");
-    void*lib=dlopen([[path stringByAppendingPathComponent:@"Contents/MacOS/DecapitatorRust"] fileSystemRepresentation],RTLD_NOW|RTLD_LOCAL);
+    void*lib=dlopen([[path stringByAppendingPathComponent:@"Contents/MacOS/Decapitator"] fileSystemRepresentation],RTLD_NOW|RTLD_LOCAL);
     auto factory=(AudioComponentFactoryFunction)dlsym(lib,"DCDevFactory");require(factory,"factory symbol");
     AudioComponentDescription desc={'aufx','Dcp1','StDv',kAudioComponentFlag_SandboxSafe,0};
-    AudioComponent component=AudioComponentRegister(&desc,CFSTR("ST Analysis: Decapitator Rust"),65536,factory);require(component,"component registration");
+    AudioComponent component=AudioComponentRegister(&desc,CFSTR("RoundBoys: Decapitator"),65536,factory);require(component,"component registration");
     AudioUnit unit=nullptr;require(AudioComponentInstanceNew(component,&unit)==0,"instance creation");
     UInt32 size=sizeof(UInt32)*12;UInt32 ids[12]={};require(AudioUnitGetProperty(unit,kAudioUnitProperty_ParameterList,0,0,ids,&size)==0&&size==48,"twelve parameters");
     for(UInt32 id:ids){AudioUnitParameterInfo info={};size=sizeof(info);require(AudioUnitGetProperty(unit,kAudioUnitProperty_ParameterInfo,0,id,&info,&size)==0,"parameter metadata");}

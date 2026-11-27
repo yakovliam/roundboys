@@ -23,7 +23,7 @@ The command stops if that directory already exists.
 It does not install or upload files.
 
 The installer targets the current user's `Library/Audio/Plug-Ins/Components` directory.
-It updates only `DecapitatorRust.component` and `LittleRadiatorRust.component`.
+It updates only `Decapitator.component` and `LittleRadiator.component`.
 The AU identifiers remain unchanged so existing test projects can load them.
 Intel Mac builds and other plug-in formats remain unavailable.
 
@@ -31,7 +31,6 @@ Every push to `main` queues a GitHub Actions build with downloadable artifacts.
 Start the local Mac runner to build with local assets.
 Manual runs can create a draft prerelease.
 See [the release guide](RELEASING.md) for signing and team delivery.
-See [the tester notes](release/TESTING.txt) for installation and test reports.
 
 ## Source and local files
 

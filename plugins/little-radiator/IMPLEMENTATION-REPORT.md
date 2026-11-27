@@ -1,6 +1,6 @@
 # Implementation report: November 26, 2026
 
-The first Little Radiator Rust AU builds and runs in the local test host.
+The first Little Radiator AU builds and runs in the local test host.
 The wet sound model remains provisional.
 None of the 32 full reference cases matches exactly.
 The editor uses original panel images, but full interface matching remains open.
@@ -118,7 +118,7 @@ The local code signature check passes.
 The desktop sandbox blocks the first component-registration check.
 The same check succeeds with access to macOS audio services.
 The final host run completes outside that sandbox.
-This is a local host result, not a REAPER or auval result.
+This is a local host result, not a the audio host or auval result.
 
 ## Sound comparison
 
@@ -154,7 +154,7 @@ No changes go to GitHub in this pass.
 | Native host checks and editor image | `host-tests/20261126T054546439511Z/` |
 | All audio errors | `comparisons/20261126T054523126712Z/summary.json` |
 
-The current build stays in `au-plugins/little-radiator/target/LittleRadiatorRust.component`.
+The current build stays in `au-plugins/little-radiator/target/LittleRadiator.component`.
 Its build manifest records source, binary, and image hashes.
 The build needs the local reference images to recreate the editor.
 
@@ -167,23 +167,22 @@ The build needs the local reference images to recreate the editor.
 5. Decode preset values and test preset and host-state recall.
 6. Compare the editor against original screenshots at each supported size.
 7. Add the original toolbar, host gestures, and full automation.
-8. Test the new AU in REAPER and with auval.
+8. Test the new AU in the audio host and with auval.
 9. Apply the checked host and measurement tools to the next plug-in.
 
 New reference measurements need repeatable authorized results before they can become comparison data.
 The existing matrix provides a bounded starting point.
 
-## REAPER follow-up: November 26, 2026
+## the audio host follow-up: November 26, 2026
 
-The separate REAPER 7.86 test profile now loads the Rust AU and displays its editor.
+The separate the audio host 7.86 test profile now loads the Rust AU and displays its editor.
 The packaging fix changes the linker output from a shared library to a Mach-O bundle.
 macOS discovers the corrected AU after its registry refresh.
-The user registration contains a separate copy at `~/Library/Audio/Plug-Ins/Components/LittleRadiatorRust.component`.
+The user registration contains a separate copy at `~/Library/Audio/Plug-Ins/Components/LittleRadiator.component`.
 The session uses a separate profile and a four-second test tone.
-Playback remains stopped. REAPER has no selected audio device yet.
+Playback remains stopped. the audio host has no selected audio device yet.
 This check confirms discovery, instance creation, and editor display.
-It does not establish REAPER audio playback or render acceptance.
-The evidence directory is `evaluation/reimplementation/little-radiator/reaper/20261126T055203271812Z/`.
+It does not establish the audio host audio playback or render acceptance.
 
 ## Preset import follow-up: November 26, 2026
 
@@ -192,7 +191,7 @@ All five control values match repeated original observations exactly.
 The implementation uses exact archive hashes and an observed control table.
 It does not yet decode custom archives.
 Read [PRESETS.md](PRESETS.md) for the public import path, limits, controls, and tests.
-The current REAPER process still uses the earlier installed build.
+The current the audio host process still uses the earlier installed build.
 
 ## RoundBoys faceplate follow-up: November 26, 2026
 

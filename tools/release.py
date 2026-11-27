@@ -13,7 +13,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
-PLUGINS = {"decapitator": "DecapitatorRust", "little-radiator": "LittleRadiatorRust"}
+PLUGINS = {"decapitator": "Decapitator", "little-radiator": "LittleRadiator"}
 
 
 def run(args, **kwargs):
@@ -95,22 +95,20 @@ def main():
         component["BundleIsVersionChecked"] = False
     component_info.write_bytes(plistlib.dumps(components))
     run(["pkgbuild", "--root", payload.parents[3], "--install-location", "/", "--ownership", "recommended",
-         "--component-plist", component_info, "--identifier", "dev.roundboys.testbench.payload", "--version", args.version, component_pkg])
+         "--component-plist", component_info, "--identifier", "dev.roundboys.payload", "--version", args.version, component_pkg])
     distribution = work / "Distribution.xml"
     distribution.write_text(f'''<?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="2">
-  <title>RoundBoys Test Bench {escape(args.version)}</title>
-  <welcome file="TESTING.txt"/>
+  <title>RoundBoys {escape(args.version)}</title>
   <options customize="never" require-scripts="false" hostArchitectures="arm64"/>
   <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="false"/>
   <choices-outline><line choice="default"/></choices-outline>
-  <choice id="default" visible="false"><pkg-ref id="dev.roundboys.testbench.payload"/></choice>
-  <pkg-ref id="dev.roundboys.testbench.payload" version="{escape(args.version)}">RoundBoysPayload.pkg</pkg-ref>
+  <choice id="default" visible="false"><pkg-ref id="dev.roundboys.payload"/></choice>
+  <pkg-ref id="dev.roundboys.payload" version="{escape(args.version)}">RoundBoysPayload.pkg</pkg-ref>
 </installer-gui-script>
 ''')
     package = out / f"RoundBoys-{args.version}-macOS-arm64.pkg"
-    command = ["productbuild", "--distribution", distribution, "--package-path", work,
-               "--resources", ROOT / "release"]
+    command = ["productbuild", "--distribution", distribution, "--package-path", work]
     if installer_identity:
         command += ["--sign", installer_identity, "--timestamp"]
     run(command + [package])
@@ -118,17 +116,16 @@ def main():
         run(["xcrun", "notarytool", "submit", package, "--keychain-profile", notary, "--wait"])
         run(["xcrun", "stapler", "staple", package])
         run(["xcrun", "stapler", "validate", package])
-    shutil.copyfile(ROOT / "release/TESTING.txt", out / "TESTING.txt")
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     manifest = {"version": args.version, "commit": revision, "plugins": records,
                 "signed": bool(app_identity), "notarized": bool(notary),
                 "minimum_macos": "11.0", "format": "AU", "architecture": "arm64",
-                "status": "test-bench; audio models remain provisional"}
+                "status": "preview; audio models remain provisional"}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    # Ship only the installer, tester notes, and manifest. Logs and temporary files stay local.
+    # Ship only the installer and manifest. Logs and instructions stay separate.
     archive_root = work / f"RoundBoys-{args.version}"
     archive_root.mkdir()
-    for path in [package, out / "TESTING.txt", out / "manifest.json"]:
+    for path in [package, out / "manifest.json"]:
         shutil.copyfile(path, archive_root / path.name)
     archive = out / f"RoundBoys-{args.version}-macOS-arm64.zip"
     run(["ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", archive_root, archive])

@@ -1,11 +1,11 @@
-# Little Radiator Rust
+# Little Radiator
 
 This repository contains the first independent Rust audio model and a macOS Audio Unit bridge.
 The wet model remains provisional. It does not yet reproduce the original sound.
 
 The AU uses separate development identifiers: `aufx / LrD1 / StDv`.
-Its name is `ST Analysis: Little Radiator Rust`.
-The build stays in `target/LittleRadiatorRust.component`.
+Its name is `ST Analysis: Little Radiator`.
+The build stays in `target/LittleRadiator.component`.
 The build script does not install the AU.
 
 The [implementation report](IMPLEMENTATION-REPORT.md) records the research, tests, and remaining work.
@@ -59,7 +59,7 @@ Custom archives remain unsupported. See [PRESETS.md](PRESETS.md).
 The wet model uses provisional gain, saturation, filters, smoothing, and noise.
 The editor provides Import .toy in its right-click menu.
 The original preset browser, host gestures, and full automation remain open.
-REAPER testing and `auval` testing also remain open.
+the audio host testing and `auval` testing also remain open.
 
 ## Local reference
 
@@ -79,7 +79,7 @@ Right-click the faceplate in the editor of the new build.
 Select **Import .toy…**.
 Select a file from `reference/presets/`.
 Custom or changed archives return an error.
-The existing installed REAPER copy needs an update before this button appears there.
+The existing installed the audio host copy needs an update before this button appears there.
 
 The command-line importer also prints the restored values:
 

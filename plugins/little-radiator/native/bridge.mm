@@ -95,7 +95,7 @@ static OSStatus get(void*self,AudioUnitPropertyID id,AudioUnitScope scope,AudioU
             v->mCocoaAUViewClass[0]=(CFStringRef)CFRetain(CFSTR("LRDevViewFactory"));break;}
         case kAudioUnitProperty_ClassInfo:{
             NSMutableArray *values=[NSMutableArray array];for(auto&v:u->values)[values addObject:@(v.load())];
-            NSDictionary *state=@{@"version":@1,@"type":@((UInt32)'aufx'),@"subtype":@((UInt32)'LrD1'),@"manufacturer":@((UInt32)'StDv'),@"name":@"Little Radiator Rust",@"parameters":values};
+            NSDictionary *state=@{@"version":@1,@"type":@((UInt32)'aufx'),@"subtype":@((UInt32)'LrD1'),@"manufacturer":@((UInt32)'StDv'),@"name":@"Little Radiator",@"parameters":values};
             *(CFPropertyListRef*)out=(CFPropertyListRef)CFBridgingRetain(state);break;}
         default:return kAudioUnitErr_InvalidProperty;
     } return noErr;
@@ -289,6 +289,6 @@ extern "C" __attribute__((visibility("default"))) AudioComponentPlugInInterface 
 @interface LRDevViewFactory : NSObject<AUCocoaUIBase> @end
 @implementation LRDevViewFactory
 - (unsigned)interfaceVersion{return 0;}
-- (NSString*)description{return @"Little Radiator Rust";}
+- (NSString*)description{return @"Little Radiator";}
 - (NSView*)uiViewForAudioUnit:(AudioUnit)unit withSize:(NSSize)size{return [[LRDevView alloc]initWithUnit:unit];}
 @end

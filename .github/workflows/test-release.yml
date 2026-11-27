@@ -57,7 +57,6 @@ jobs:
             dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/*.zip
             dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/SHA256SUMS.txt
             dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/manifest.json
-            dist/roundboys-${{ env.RELEASE_VERSION }}-macos-arm64/TESTING.txt
       - name: Save test logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -71,7 +70,7 @@ jobs:
         run: |
           gh release create "test-v$RELEASE_VERSION" \
             --target "$GITHUB_SHA" --draft --prerelease \
-            --title "RoundBoys Test Bench $RELEASE_VERSION" \
+            --title "RoundBoys $RELEASE_VERSION" \
             --notes-file release/NOTES.md \
             "dist/roundboys-$RELEASE_VERSION-macos-arm64/"*.pkg \
             "dist/roundboys-$RELEASE_VERSION-macos-arm64/"*.zip \
@@ -82,7 +81,7 @@ jobs:
           {
             echo "## RoundBoys $RELEASE_VERSION"
             echo 'Download the installable artifact from this run.'
-            echo 'It contains the PKG, ZIP, checksums, manifest, and tester notes.'
+            echo 'It contains the PKG, ZIP, checksums, and manifest.'
             echo 'Platform: Apple silicon, macOS 11 or later. Format: AU.'
             echo 'This build has a local signature. Apple signing and notarization remain required for normal team delivery.'
           } >> "$GITHUB_STEP_SUMMARY"

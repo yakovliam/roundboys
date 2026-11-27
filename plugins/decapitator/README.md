@@ -10,7 +10,7 @@ The meter now follows the final output signal.
 Its calibration remains provisional.
 
 The development identifiers are `aufx / Dcp1 / StDv`.
-The AU name is `RoundBoys: Decapitator Rust`.
+The AU name is `RoundBoys: Decapitator`.
 The original uses `aufx / DEC  / SToy`, including the subtype's trailing space.
 
 ## Build and check
@@ -25,7 +25,7 @@ python3 ../../tools/release.py --version 0.1.1
 
 The build needs Rust, the macOS SDK, and the local images in `assets/`.
 The build uses the current Mac architecture.
-The AU stays at `target/DecapitatorRust.component`.
+The AU stays at `target/Decapitator.component`.
 The build script does not install it.
 
 Native checks need access to macOS audio services and the window server.

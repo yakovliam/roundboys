@@ -60,7 +60,7 @@ Create a draft prerelease after a successful build:
 
 ```sh
 gh release create test-v0.1.0 --draft --prerelease \
-  --title 'RoundBoys Test Bench 0.1.0' --notes-file release/NOTES.md \
+  --title 'RoundBoys 0.1.0' --notes-file release/NOTES.md \
   dist/roundboys-0.1.0-macos-arm64/*.pkg \
   dist/roundboys-0.1.0-macos-arm64/*.zip \
   dist/roundboys-0.1.0-macos-arm64/SHA256SUMS.txt \
@@ -112,7 +112,7 @@ The release command runs formatting, Rust tests, Clippy, and native AU checks.
 It checks the architecture, signature, and bundle version.
 The native checks cover state recall, preset import, and editor creation.
 The Decapitator check also covers user presets and meter movement.
-Check real playback and automation in REAPER before publishing each release.
+Check real playback and automation in the audio host before publishing each release.
 Full original sound matching remains open.
 
 Keep the previous release installer for rollback.
