@@ -1,0 +1,14 @@
+**/target/
+**/reference/
+**/assets/
+**/__pycache__/
+/dist/
+/.local/
+.DS_Store
+*.component/
+*.pkg
+*.zip
+*.dmg
+*.p12
+*.key
+.env

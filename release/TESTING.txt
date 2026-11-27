@@ -1,0 +1,38 @@
+RoundBoys Test Bench
+
+This package contains Decapitator Rust and Little Radiator Rust as Audio Units.
+It requires an Apple silicon Mac and macOS 11 or later.
+The audio models remain provisional. They do not yet match the original audio.
+
+1. Save your project.
+2. Close REAPER and other audio hosts.
+3. Open the PKG installer.
+4. Select installation for your user account.
+5. Complete the installation.
+6. Start the audio host.
+7. Rescan Audio Units if the host does not show the plug-ins.
+8. Select the RoundBoys plug-in from the AU list.
+
+The installer places the components in:
+~/Library/Audio/Plug-Ins/Components/DecapitatorRust.component
+~/Library/Audio/Plug-Ins/Components/LittleRadiatorRust.component
+
+The installer replaces only those two test components.
+It does not change the original Soundtoys components.
+It does not install PACE or require a Soundtoys activation.
+Existing test components in the system Library can cause duplicate host entries.
+Keep one copy of each test component in the host search paths.
+
+Check signed and notarized in the supplied manifest.
+Unsigned test builds may be blocked by macOS after download.
+Use a signed and notarized release for normal team installation.
+
+For each issue, record the release version, macOS version, Mac model, host version,
+sample rate, buffer size, preset name, and exact steps.
+Record expected behavior and actual behavior.
+Send a short audio example or screenshot when it helps explain the issue.
+Do not include license keys or unrelated project files.
+
+Close the host before rollback.
+Run the previous release installer to restore the previous test components.
+Saved presets and host projects stay in place.
