@@ -20,16 +20,16 @@ Run these commands from this repository:
 ```sh
 python3 tools/build_au.py
 cargo test --offline -- --include-ignored
-python3 tools/validate.py
+python3 ../../tools/release.py --version 0.1.1
 ```
 
-The build needs Rust, the macOS SDK, the local reference images, and the shared RoundBoys PNG in the Little Radiator repository.
+The build needs Rust, the macOS SDK, and the local images in `assets/`.
 The build uses the current Mac architecture.
 The AU stays at `target/DecapitatorRust.component`.
 The build script does not install it.
 
 Native checks need access to macOS audio services and the window server.
-The validation script compares against saved reference audio and preset observations.
+The old analysis repository contains the original audio comparisons.
 It does not run the original AU.
 
 ## Controls and presets
@@ -67,8 +67,14 @@ cargo run --offline --release --bin import-preset -- "reference/presets/01 Bass/
 The original component and presets stay in the ignored `reference/` directory.
 New evidence stays under `evaluation/reimplementation/decapitator/` in the outer repository.
 Evidence remains after `cargo clean`.
-The reference capture tools require the licensed original.
+The reference capture tools stay in the old analysis repository.
 They use its public AU interface without a debugger or binary changes.
 
 The new AU does not link or load original executable code or PACE.
 Its local build includes original image assets and the generated RoundBoys image.
+
+## RoundBoys repository
+
+Use the root release guide for the current build and distribution process.
+The older evidence paths refer to the separate analysis repository.
+Local image assets and preset fixtures stay outside Git.

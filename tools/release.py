@@ -86,8 +86,16 @@ def main():
             records.append({"plugin": slug, "bundle": target.name, "architecture": result,
                             "binary_sha256": digest(target / "Contents/MacOS" / executable)})
     component_pkg = work / "RoundBoysPayload.pkg"
+    component_info = work / "components.plist"
+    run(["pkgbuild", "--analyze", "--root", payload.parents[3], component_info])
+    components = plistlib.loads(component_info.read_bytes())
+    for component in components:
+        component["BundleIsRelocatable"] = False
+        component["BundleHasStrictIdentifier"] = True
+        component["BundleIsVersionChecked"] = False
+    component_info.write_bytes(plistlib.dumps(components))
     run(["pkgbuild", "--root", payload.parents[3], "--install-location", "/", "--ownership", "recommended",
-         "--identifier", "dev.roundboys.testbench.payload", "--version", args.version, component_pkg])
+         "--component-plist", component_info, "--identifier", "dev.roundboys.testbench.payload", "--version", args.version, component_pkg])
     distribution = work / "Distribution.xml"
     distribution.write_text(f'''<?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="2">

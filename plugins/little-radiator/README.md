@@ -96,3 +96,9 @@ The generated RoundBoys wordmark replaces the manufacturer logo region.
 The other original faceplate pixels remain unchanged.
 The image generation record and prompt stay in `assets/roundboys-generation.md`.
 The local build needs `assets/roundboys-faceplate-generated.png`.
+
+## RoundBoys repository
+
+Use the root release guide for the current build and distribution process.
+The older evidence paths refer to the separate analysis repository.
+Local image assets and preset fixtures stay outside Git.

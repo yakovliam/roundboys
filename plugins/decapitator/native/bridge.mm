@@ -214,4 +214,3 @@ static AudioComponentMethod lookup(SInt16 selector) {
 extern "C" __attribute__((visibility("default"))) AudioComponentPlugInInterface *DCDevFactory(const AudioComponentDescription*) {
     auto*u=new Unit;u->api={openUnit,closeUnit,lookup,nullptr};return &u->api;
 }
-
